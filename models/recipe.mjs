@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../utils/database.mjs";
 import Category from "./category.mjs";
+import User from "./user.mjs";
 
 class Recipe extends Model {}
 
@@ -39,6 +40,14 @@ Recipe.init(
       allowNull: false,
       references: {
         model: Category,
+        key: "id",
+      },
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: User,
         key: "id",
       },
     },
