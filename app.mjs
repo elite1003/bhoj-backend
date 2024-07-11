@@ -22,6 +22,8 @@ import Category from "./models/category.mjs";
 import adminRoutes from "./routes/admin.mjs";
 import shopRoutes from "./routes/shop.mjs";
 import authRoutes from "./routes/auth.mjs";
+import forgetPasswordRoute from "./routes/forget-password.mjs";
+import resetPasswordRoute from "./routes/reset-password.mjs";
 import { error404 } from "./controllers/error.mjs";
 
 const app = express();
@@ -33,6 +35,8 @@ app.use(bodyParser.json());
 app.use("/admin", verifyToken, adminRoutes);
 app.use("/shop", verifyToken, shopRoutes);
 app.use("/auth", authRoutes);
+app.use("/reset-password", verifyToken, resetPasswordRoute);
+app.use("/forget-password", forgetPasswordRoute);
 
 app.use(error404);
 
