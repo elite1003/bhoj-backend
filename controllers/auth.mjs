@@ -1,6 +1,10 @@
 import bcrypt from "bcrypt";
 import User from "../models/user.mjs";
-import { generateToken } from "../utils/jwt.mjs";
+import { transporter } from "../utils/emailer.mjs";
+import {
+  generateToken,
+  generateTokenForForgetPassword,
+} from "../utils/jwt.mjs";
 
 export const postSignUp = async (req, res, next) => {
   const { name, email, password, role } = req.body;
@@ -46,4 +50,36 @@ export const postLogin = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export const postForgetPassword = async (req, res, next) => {
+  const { email } = req.body;
+  const user = await User.findOne({ where: { email } });
+  if (!user) {
+    return res.status(404).json("user not found");
+  }
+  const token = generateTokenForForgetPassword(user);
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: user.email,
+    subject: "Password Reset",
+    text: `Please use the following link to reset your password: http://localhost:4000/reset-password?token=${token}`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).json(error.toString());
+    }
+    res.send("Password reset link sent to your email.");
+  });
+};
+
+export const postResetPassword = (req, res, next) => {
+  const { newPassword } = req.body;
+  req.user.password = newPassword;
+  req.user
+    .save()
+    .then(() => res.status(200).json("Password has been reset"))
+    .catch((error) => res.status(500).json(error.toString()));
 };
