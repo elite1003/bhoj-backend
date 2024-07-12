@@ -19,6 +19,13 @@ Category.init(
         notEmpty: true,
       },
     },
+    cloudinaryPublicId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   },
   {
     sequelize,

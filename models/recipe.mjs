@@ -28,6 +28,13 @@ Recipe.init(
         notEmpty: true,
       },
     },
+    cloudinaryPublicId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
     ingredients: {
       type: DataTypes.STRING(500),
       allowNull: false,
@@ -61,27 +68,3 @@ Recipe.init(
 
 // Export the model
 export default Recipe;
-
-// Update a product by ID
-export const updateRecipeById = async (recipeId, updatedData) => {
-  try {
-    const [updatedRows] = await Recipe.update(updatedData, {
-      where: { id: recipeId },
-    });
-    return updatedRows > 0 ? await Recipe.findByPk(recipeId) : null;
-  } catch (error) {
-    throw error;
-  }
-};
-
-// Delete a product by ID
-export const deleteRecipeById = async (recipeId) => {
-  try {
-    const deletedRows = await Recipe.destroy({
-      where: { id: recipeId },
-    });
-    return deletedRows > 0;
-  } catch (error) {
-    throw error;
-  }
-};
