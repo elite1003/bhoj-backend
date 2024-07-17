@@ -7,20 +7,15 @@ import {
 } from "../utils/jwt.mjs";
 
 export const postSignUp = async (req, res, next) => {
-  const { name, email, password, role } = req.body;
+  const user = req.body;
   try {
     // Check if the user already exists
-    const existingUser = await User.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email: user.email } });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
     // Create a new user and save into database
-    const newUser = await User.create({
-      name,
-      email,
-      password,
-      role,
-    });
+    const newUser = await User.create(user);
     await newUser.createCart();
     res.status(201).json({ email: newUser.email, id: newUser.id });
   } catch (error) {
@@ -29,18 +24,17 @@ export const postSignUp = async (req, res, next) => {
 };
 
 export const postLogin = async (req, res, next) => {
-  const email = req.body.userEmail;
-  const password = req.body.userPassword;
+  const userData = req.body;
   try {
     // Check if the user exists
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email: userData.email } });
     if (!user) {
       return res
         .status(400)
         .json({ message: "Invalid email or user doesn't exist" });
     }
     // Compare the provided password with the hashed password in the database
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(userData.password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid password" });
     }
@@ -53,8 +47,8 @@ export const postLogin = async (req, res, next) => {
 };
 
 export const postForgetPassword = async (req, res, next) => {
-  const { email } = req.body;
-  const user = await User.findOne({ where: { email } });
+  const userData = req.body;
+  const user = await User.findOne({ where: { email: userData.email } });
   if (!user) {
     return res.status(404).json("user not found");
   }
@@ -76,8 +70,8 @@ export const postForgetPassword = async (req, res, next) => {
 };
 
 export const postResetPassword = (req, res, next) => {
-  const { newPassword } = req.body;
-  req.user.password = newPassword;
+  const userData = req.body;
+  req.user.password = userData.newPassword;
   req.user
     .save()
     .then(() => res.status(200).json("Password has been reset"))

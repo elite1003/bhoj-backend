@@ -21,6 +21,13 @@ Recipe.init(
         min: 0,
       },
     },
+    ingredients: {
+      type: DataTypes.STRING(500),
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
     imageUrl: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -30,13 +37,6 @@ Recipe.init(
     },
     cloudinaryPublicId: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    ingredients: {
-      type: DataTypes.STRING(500),
       allowNull: false,
       validate: {
         notEmpty: true,

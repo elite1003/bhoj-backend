@@ -33,9 +33,9 @@ OrderRecipe.init(
   },
   {
     sequelize,
-    modelName: "OrderProduct",
+    modelName: "OrderRecipe",
     timestamps: false,
   }
 );
 
-export default OrderProduct;
+export default OrderRecipe;
