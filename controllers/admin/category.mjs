@@ -44,6 +44,9 @@ export const putCategory = async (req, res, next) => {
   const newCategory = req.body;
   try {
     const category = await Category.findByPk(categoryId);
+    if (!category) {
+      return res.status(400).send("couldn't find the category with given Id");
+    }
     for (const field in newCategory) {
       if (newCategory.hasOwnProperty(field)) {
         category[field] = newCategory[field];
@@ -61,6 +64,6 @@ export const putCategory = async (req, res, next) => {
     await category.save();
     return res.status(200).json(category);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(500).json(error);
   }
 };
