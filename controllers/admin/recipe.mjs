@@ -19,7 +19,6 @@ export const postRecipe = async (req, res, next) => {
   deleteLocalFile(path.join(rootDir, req.file.path));
   recipe.imageUrl = uploadedFile.secure_url;
   recipe.cloudinaryPublicId = uploadedFile.public_id;
-
   req.user
     .createRecipe(recipe)
     .then((newRecipe) => res.status(201).json({ id: newRecipe.id }))

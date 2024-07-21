@@ -11,7 +11,7 @@ import { associations } from "./utils/associations.mjs";
 
 //routes
 import adminRoutes from "./routes/admin.mjs";
-import shopRoutes from "./routes/shop.mjs";
+import userRoutes from "./routes/user.mjs";
 import authRoutes from "./routes/auth.mjs";
 import { error404 } from "./controllers/error.mjs";
 
@@ -29,7 +29,7 @@ app.use(express.static(path.join(rootDir, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/admin", verifyToken, adminRoutes);
-app.use("/shop", verifyToken, shopRoutes);
+app.use("/user", verifyToken, userRoutes);
 app.use("/auth", authRoutes);
 app.use(error404);
 

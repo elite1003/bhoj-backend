@@ -15,6 +15,7 @@ export const associations = () => {
     constraints: true,
     onDelete: "CASCADE",
   });
+
   User.hasOne(Cart, { foreignKey: "userId" });
   Cart.belongsTo(User, { foreignKey: "userId" });
 

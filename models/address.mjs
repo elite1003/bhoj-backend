@@ -46,6 +46,10 @@ Address.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     addressType: {
       type: DataTypes.ENUM("Home", "Work", "Other"),
       allowNull: false,

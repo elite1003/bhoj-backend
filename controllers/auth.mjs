@@ -17,9 +17,9 @@ export const postSignUp = async (req, res, next) => {
     // Create a new user and save into database
     const newUser = await User.create(user);
     await newUser.createCart();
-    res.status(201).json({ email: newUser.email, id: newUser.id });
+    res.status(201).json("User created successfully");
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json(error);
   }
 };
 
@@ -42,7 +42,7 @@ export const postLogin = async (req, res, next) => {
     const jwtToken = generateToken(user);
     res.status(200).json({ message: "Login successful", jwtToken });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json(error);
   }
 };
 

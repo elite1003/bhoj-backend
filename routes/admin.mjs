@@ -6,7 +6,6 @@ import {
   putRecipe,
   getRecipe,
 } from "../controllers/admin/recipe.mjs";
-
 import {
   getCategory,
   postCategory,
@@ -18,11 +17,13 @@ import { getOrder, putOrder } from "../controllers/admin/order.mjs";
 
 const router = express.Router();
 
+//recipe
 router.get("/recipe", getRecipe);
 router.post("/recipe", upload.single("recipeImage"), postRecipe);
 router.put("/recipe/:recipeId", upload.single("recipeImage"), putRecipe);
 router.delete("/recipe/:recipeId", deleteRecipe);
 
+//category
 router.get("/category", getCategory);
 router.post("/category", upload.single("categoryImage"), postCategory);
 router.put(
@@ -32,6 +33,7 @@ router.put(
 );
 router.delete("/category/:categoryId", deleteCategory);
 
+//order
 router.get("/order", getOrder);
 router.put("/order/:orderId", putOrder);
 

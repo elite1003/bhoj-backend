@@ -7,7 +7,18 @@ import {
 } from "../controllers/shop/cart.mjs";
 import { getOrderWithRecipe, postOrder } from "../controllers/shop/order.mjs";
 
+import {
+  getProfile,
+  putProfile,
+  deleteProfile,
+} from "../controllers/user/profile.mjs";
+
 const router = express.Router();
+
+//profile
+router.get("/profile", getProfile);
+router.put("/profile", putProfile);
+router.delete("/profile", deleteProfile);
 
 //recipe route
 router.get("/recipe", getRecipe);

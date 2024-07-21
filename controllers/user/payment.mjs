@@ -1,4 +1,5 @@
 import Order from "../../models/order.mjs";
+
 export const postPayment = (req, res, next) => {
   const { orderId } = req.params;
   const { paymentMethod } = req.body;
