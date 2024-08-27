@@ -3,8 +3,7 @@ import path from "path";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import rootDir from "./utils/root-dir.mjs";
-import { verifyToken } from "./utils/jwt.mjs";
+import { verifyHeaderToken, verifyQueryToken } from "./utils/jwt.mjs";
 import sequelize from "./utils/database.mjs";
 import { v2 as cloudinary } from "cloudinary";
 import { associations } from "./utils/associations.mjs";
@@ -13,6 +12,10 @@ import { associations } from "./utils/associations.mjs";
 import adminRoutes from "./routes/admin.mjs";
 import userRoutes from "./routes/user.mjs";
 import authRoutes from "./routes/auth.mjs";
+import shopRoutes from "./routes/shop.mjs";
+import categoryRoutes from "./routes/category.mjs";
+import forgetPasswordRoute from "./routes/forget-password.mjs";
+import resetPasswordRoute from "./routes/reset-password.mjs";
 import { error404 } from "./controllers/error.mjs";
 
 dotenv.config();
@@ -25,12 +28,15 @@ cloudinary.config({
 });
 
 app.use(cors());
-app.use(express.static(path.join(rootDir, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use("/admin", verifyToken, adminRoutes);
-app.use("/user", verifyToken, userRoutes);
+app.use("/shop", shopRoutes);
 app.use("/auth", authRoutes);
+app.use("/forget-password", forgetPasswordRoute);
+app.use("/category", categoryRoutes);
+app.use("/reset-password", verifyQueryToken, resetPasswordRoute);
+app.use("/admin", verifyHeaderToken, adminRoutes);
+app.use("/user", verifyHeaderToken, userRoutes);
 app.use(error404);
 
 //associations
